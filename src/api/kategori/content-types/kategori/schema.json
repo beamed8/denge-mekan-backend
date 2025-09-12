@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "kategoris",
+  "info": {
+    "singularName": "kategori",
+    "pluralName": "kategoris",
+    "displayName": "Kategori"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "ad": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid"
+    },
+    "emlak": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::emlak.emlak",
+      "inversedBy": "kategori"
+    }
+  }
+}

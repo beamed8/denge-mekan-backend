@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "emlaks",
+  "info": {
+    "singularName": "emlak",
+    "pluralName": "emlaks",
+    "displayName": "Emlak"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "baslik": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid"
+    },
+    "aciklama": {
+      "type": "blocks"
+    },
+    "fiyat": {
+      "type": "decimal"
+    },
+    "lokasyon": {
+      "type": "string"
+    },
+    "kategori": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::kategori.kategori",
+      "mappedBy": "emlak"
+    },
+    "resimler": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "ilanTipi": {
+      "type": "enumeration",
+      "enum": [
+        "Satılık",
+        "Kiralık"
+      ]
+    }
+  }
+}
