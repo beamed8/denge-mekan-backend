@@ -430,7 +430,7 @@ export interface ApiEmlakEmlak extends Struct.CollectionTypeSchema {
     ilanTipi: Schema.Attribute.Enumeration<
       ['Sat\u0131l\u0131k', 'Kiral\u0131k']
     >;
-    kategori: Schema.Attribute.Relation<'oneToMany', 'api::kategori.kategori'>;
+    kategoris: Schema.Attribute.Relation<'manyToOne', 'api::kategori.kategori'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::emlak.emlak'> &
       Schema.Attribute.Private;
@@ -462,7 +462,7 @@ export interface ApiKategoriKategori extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    emlak: Schema.Attribute.Relation<'manyToOne', 'api::emlak.emlak'>;
+    emlaks: Schema.Attribute.Relation<'oneToMany', 'api::emlak.emlak'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

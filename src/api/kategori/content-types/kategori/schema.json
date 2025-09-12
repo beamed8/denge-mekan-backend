@@ -17,11 +17,11 @@
     "slug": {
       "type": "uid"
     },
-    "emlak": {
+    "emlaks": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToMany",
       "target": "api::emlak.emlak",
-      "inversedBy": "kategori"
+      "mappedBy": "kategoris"
     }
   }
 }

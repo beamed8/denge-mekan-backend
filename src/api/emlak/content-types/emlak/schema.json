@@ -26,11 +26,11 @@
     "lokasyon": {
       "type": "string"
     },
-    "kategori": {
+    "kategoris": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToOne",
       "target": "api::kategori.kategori",
-      "mappedBy": "emlak"
+      "inversedBy": "emlaks"
     },
     "resimler": {
       "type": "media",
