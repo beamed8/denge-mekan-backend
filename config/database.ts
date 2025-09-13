@@ -1,16 +1,15 @@
 import path from "path";
 
 export default ({ env }) => {
-  const client = env("DATABASE_CLIENT", "sqlite");
+  const client = env("DATABASE_CLIENT", "postgres");
 
   const connections = {
     postgres: {
       connection: {
         connectionString: env("DATABASE_URL"),
-        ssl: env.bool("DATABASE_SSL", true)
-          ? { rejectUnauthorized: false }
-          : false,
+        ssl: { rejectUnauthorized: false }, // Render Postgres için gerekli
       },
+      pool: { min: 2, max: 10 },
     },
     sqlite: {
       connection: {
