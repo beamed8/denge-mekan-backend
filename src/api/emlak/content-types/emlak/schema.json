@@ -48,6 +48,9 @@
         "Satılık",
         "Kiralık"
       ]
+    },
+    "featured": {
+      "type": "boolean"
     }
   }
 }

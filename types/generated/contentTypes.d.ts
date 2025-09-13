@@ -426,6 +426,7 @@ export interface ApiEmlakEmlak extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    featured: Schema.Attribute.Boolean;
     fiyat: Schema.Attribute.Decimal;
     ilanTipi: Schema.Attribute.Enumeration<
       ['Sat\u0131l\u0131k', 'Kiral\u0131k']
