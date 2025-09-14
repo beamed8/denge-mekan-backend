@@ -17,17 +17,17 @@ const transform = (url: string, options: any) => {
 };
 
 export default {
-  async afterCreate(event) {
+  async afterCreate(event: any) {
     const { result } = event;
 
     if (result.provider !== "cloudinary") return;
 
     const formats = generateFormats(result.url);
 
-    // DB update
-    await strapi.db
-      .update("plugin::upload.file")
-      .set({ formats })
-      .where({ id: result.id });
+    // Strapi v5 query API kullanarak güncelle
+    await strapi.db.query("plugin::upload.file").update({
+      where: { id: result.id },
+      data: { formats },
+    });
   },
 };
