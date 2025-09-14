@@ -5,7 +5,16 @@ export default [
   "strapi::cors",
   "strapi::poweredBy",
   "strapi::query",
-  "strapi::body",
+
+  {
+    name: "strapi::body",
+    config: {
+      formLimit: "10mb", // multipart/form-data max
+      jsonLimit: "5mb", // application/json max
+      textLimit: "5mb", // text/plain max
+    },
+  },
+
   "strapi::session",
   "strapi::favicon",
   "strapi::public",
