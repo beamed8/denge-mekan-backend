@@ -16,18 +16,24 @@ const transform = (url: string, options: any) => {
   }/${parts[1]}`;
 };
 
-export default {
-  async afterCreate(event: any) {
-    const { result } = event;
+export default (plugin) => {
+  const oldUpload = plugin.services.upload.upload;
 
-    if (result.provider !== "cloudinary") return;
+  plugin.services.upload.upload = async function (files) {
+    const result = await oldUpload.call(this, files);
 
-    const formats = generateFormats(result.url);
+    if (Array.isArray(result)) {
+      result.forEach((file) => {
+        if (file.provider === "cloudinary") {
+          file.formats = generateFormats(file.url);
+        }
+      });
+    } else if (result?.provider === "cloudinary") {
+      result.formats = generateFormats(result.url);
+    }
 
-    // Strapi v5 query API kullanarak güncelle
-    await strapi.db.query("plugin::upload.file").update({
-      where: { id: result.id },
-      data: { formats },
-    });
-  },
+    return result;
+  };
+
+  return plugin;
 };
