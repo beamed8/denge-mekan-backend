@@ -8,7 +8,14 @@ export default ({ env }) => ({
         api_secret: env("CLOUDINARY_SECRET"),
       },
       actionOptions: {
-        upload: {},
+        upload: {
+          eager: [
+            { width: 245, height: 138, crop: "fill" }, // thumbnail
+            { width: 500, crop: "scale" }, // small
+            { width: 750, crop: "scale" }, // medium
+            { width: 1000, crop: "scale" }, // large
+          ],
+        },
         delete: {},
       },
     },

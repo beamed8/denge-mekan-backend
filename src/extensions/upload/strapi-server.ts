@@ -17,23 +17,31 @@ const transform = (url: string, options: any) => {
 };
 
 export default (plugin) => {
-  const oldUpload = plugin.services.upload.upload;
+  const { events } = plugin.services.upload;
 
-  plugin.services.upload.upload = async function (files) {
-    const result = await oldUpload.call(this, files);
+  // afterUploadFile event
+  events.on("afterUploadFile", async ({ file }) => {
+    if (file.provider !== "cloudinary") return;
 
-    if (Array.isArray(result)) {
-      result.forEach((file) => {
-        if (file.provider === "cloudinary") {
-          file.formats = generateFormats(file.url);
-        }
-      });
-    } else if (result?.provider === "cloudinary") {
-      result.formats = generateFormats(result.url);
+    // Cloudinary eager sonucu ile formats oluştur
+    const formats: Record<string, { url: string }> = {};
+
+    if (file?.metadata?.eager && Array.isArray(file.metadata.eager)) {
+      const eager = file.metadata.eager;
+      if (eager[0]) formats.thumbnail = { url: eager[0].secure_url };
+      if (eager[1]) formats.small = { url: eager[1].secure_url };
+      if (eager[2]) formats.medium = { url: eager[2].secure_url };
+      if (eager[3]) formats.large = { url: eager[3].secure_url };
     }
 
-    return result;
-  };
+    // DB update
+    if (Object.keys(formats).length > 0) {
+      await strapi.db.query("plugin::upload.file").update({
+        where: { id: file.id },
+        data: { formats },
+      });
+    }
+  });
 
   return plugin;
 };
